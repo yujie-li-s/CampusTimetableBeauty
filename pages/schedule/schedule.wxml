@@ -1,0 +1,70 @@
+<view class="container">
+  <!-- 顶部标题+周选择 -->
+  <view class="header-top">
+    <view class="week-select" bindtap="toggleWeekPopup">{{weekTitle}} ∨</view>
+    <view class="menu-icon" bindtap="showMenu">☰</view>
+  </view>
+
+  <!-- 右上角下拉菜单（所有菜单项绑定事件） -->
+  <view wx:if="{{showMenuPanel}}" class="menu-panel">
+    <view class="menu-item" bindtap="goSetting">设置</view>
+    <view class="menu-item" bindtap="importData">导入</view>
+    <view class="menu-item" bindtap="scanCode">扫一扫</view>
+    <view class="menu-item" bindtap="showQRCode">二维码</view>
+    <view class="menu-item" bindtap="shareTimetable">转发</view>
+  </view>
+
+  <!-- 固定不动的星期表头 -->
+  <view class="week-header-row">
+    <view class="time-col-placeholder"></view>
+    <block wx:for="{{weekDays}}" wx:key="index">
+      <view class="week-cell">{{item.week}}<br/>{{item.date}}</view>
+    </block>
+  </view>
+
+  <!-- 周选择弹窗 -->
+  <view wx:if="{{showWeekSelect}}" class="week-mask" bindtap="closeWeekPopup">
+    <view class="week-wrap" catchtap="stop">
+      <block wx:for="{{weekList}}" wx:key="index">
+        <view class="week-item {{item.active?'active':''}}" bindtap="selectWeek" data-week="{{item.val}}">
+          {{item.label}}
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 垂直滚动区域（课表主体） -->
+  <scroll-view scroll-y class="scroll-lesson-area">
+    <view class="lesson-table">
+      <block wx:for="{{timeSlots}}" wx:for-item="slot" wx:for-index="idx" wx:key="no">
+        <view class="lesson-row {{slot.divider ? 'divider-row' : ''}}">
+          <view class="time-cell">
+            <view class="num">{{slot.no}}</view>
+            <view class="time">{{slot.start}}</view>
+            <view class="time">{{slot.end}}</view>
+          </view>
+          <!-- 7个格子，分别对应周一到周日 -->
+          <view class="day-cell" 
+                wx:for="{{weekDays}}" 
+                wx:for-item="day" 
+                wx:for-index="dayIdx" 
+                bindtap="tapCell" 
+                data-day="{{dayIdx}}" 
+                data-slot="{{slot.no}}">
+            <!-- 显示该格子内的课程 -->
+            <view wx:for="{{courseList}}" wx:for-item="course" wx:key="id">
+              <view wx:if="{{course.slot === slot.no && course.day === dayIdx}}" 
+                    class="course-block">
+                {{course.name}}
+                <view wx:if="{{course.room}}" class="room">{{course.room}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+
+  <!-- 课程添加弹窗（组件） -->
+  <course-modal show="{{modalShow}}" bind:closeModal="closeModal" bind:confirm="confirmCourse"></course-modal>
+</view>

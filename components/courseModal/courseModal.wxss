@@ -1,0 +1,52 @@
+.mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+.modal {
+  width: 85%;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx;
+}
+.title {
+  text-align: center;
+  font-size: 34rpx;
+  margin-bottom: 30rpx;
+}
+.ipt {
+  border: 1rpx solid #ddd;
+  padding: 20rpx;
+  margin: 15rpx 0;
+  border-radius: 8rpx;
+}
+.btns {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 30rpx;
+}
+button {
+  flex: 1;
+}
+
+/* 课表格子内的课程块样式（在schedule.wxss中也可，但这里加入是为了避免遗漏） */
+.course-block {
+  background: #4c8bf5;
+  color: #fff;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  padding: 4rpx 6rpx;
+  margin: 2rpx 4rpx;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.room {
+  font-size: 18rpx;
+  opacity: 0.8;
+}

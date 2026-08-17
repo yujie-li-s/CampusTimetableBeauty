@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/schedule/schedule",
+    "pages/setting/setting",
+    "pages/timeEdit/timeEdit"
+  ],
+  "window": {
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "校园课表",
+    "navigationBarTextStyle":"black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

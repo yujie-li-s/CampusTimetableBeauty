@@ -1,0 +1,20 @@
+<view class="container">
+  <view class="item" bindtap="goTimeEdit">
+    <view class="label">每日节数与时间</view>
+    <view class="arrow">></view>
+  </view>
+
+  <view class="item">
+    <view class="label">开学日期</view>
+    <picker mode="date" value="{{startDate}}" bindchange="onStartDateChange">
+      <view class="val">{{startDate || '请选择'}}</view>
+    </picker>
+  </view>
+
+  <view class="item">
+    <view class="label">总教学周</view>
+    <picker mode="selector" range="{{weekRange}}" value="{{totalWeekIdx}}" bindchange="onTotalWeekChange">
+      <view class="val">{{totalWeek}} 周</view>
+    </picker>
+  </view>
+</view>

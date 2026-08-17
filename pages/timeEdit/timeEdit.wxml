@@ -1,0 +1,44 @@
+<view class="page">
+  <view class="header">
+    <navigator open-type="navigateBack" class="back">←</navigator>
+    <view class="title">每日节数与时间</view>
+    <view class="clear" bindtap="handleClear">清空</view>
+  </view>
+
+  <view wx:for="{{groupList}}" wx:key="title" class="group">
+    <view class="group-title">{{item.title}}</view>
+    <view wx:for="{{item.list}}" wx:for-item="slot" wx:key="no" class="row" bindtap="openTimePicker" data-index="{{slot.index}}">
+      <view class="name">第{{slot.no}}节</view>
+      <view class="time">{{slot.start}}-{{slot.end}}</view>
+      <view class="arrow">∨</view>
+    </view>
+  </view>
+
+  <!-- 时间编辑弹窗（使用 picker） -->
+  <view wx:if="{{showPicker}}" class="mask" bindtap="closePicker">
+    <view class="popup" catchtap="stop">
+      <view class="pop-head">
+        <view bindtap="closePicker" class="pop-cancel">取消</view>
+        <view class="pop-title">第{{editSlot.no}}节</view>
+        <view bindtap="confirmTime" class="pop-ok">确定</view>
+      </view>
+      <view class="pick-wrap">
+        <view class="picker-group">
+          <text class="label">开始</text>
+          <picker mode="time" value="{{startTime}}" bindchange="onStartTimeChange">
+            <view class="picker-value">{{startTime}}</view>
+          </picker>
+        </view>
+        <view class="to">To</view>
+        <view class="picker-group">
+          <text class="label">结束</text>
+          <picker mode="time" value="{{endTime}}" bindchange="onEndTimeChange">
+            <view class="picker-value">{{endTime}}</view>
+          </picker>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="save-btn" bindtap="handleSave">保存</view>
+</view>

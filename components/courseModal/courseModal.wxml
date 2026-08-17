@@ -1,0 +1,11 @@
+<view wx:if="{{show}}" class="mask" bindtap="onClose">
+  <view class="modal" catchtap="stop">
+    <view class="title">添加课程</view>
+    <input placeholder="课程名称" class="ipt" bindinput="onNameInput" value="{{courseName}}" />
+    <input placeholder="教室" class="ipt" bindinput="onRoomInput" value="{{room}}" />
+    <view class="btns">
+      <button bindtap="onClose">取消</button>
+      <button bindtap="onConfirm">确认</button>
+    </view>
+  </view>
+</view>

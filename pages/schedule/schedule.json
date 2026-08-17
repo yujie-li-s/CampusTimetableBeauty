@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText":"校园课表",
+  "usingComponents":{
+    "course-modal":"../../components/courseModal/courseModal"
+  }
+}
