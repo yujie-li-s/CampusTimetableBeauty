@@ -1,146 +1,260 @@
-page{
-  background:#fff;
-}
-.container{
-  width:100%;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  box-sizing: border-box;
-}
-
-.header-top{
-  display:flex;
-  justify-content:space-between;
-  padding:24rpx 30rpx;
-  align-items:center;
-  position:relative;
-}
-.week-select{
-  font-size:34rpx;
-}
-.menu-icon{
-  font-size:40rpx;
-}
-.menu-panel{
-  position:absolute;
-  top:80rpx;
-  right:20rpx;
-  background:#fff;
-  box-shadow:0 0 12rpx #ccc;
-  border-radius:12rpx;
-  z-index:99;
-}
-.menu-item{
-  padding:24rpx 40rpx;
-  font-size:32rpx;
-}
-
-/* ==========星期表头行========== */
-.week-header-row{
-  display:flex;
-  flex-shrink:0;
-}
-.time-col-placeholder{
-  width:120rpx;
-  flex-shrink:0;
-  border-right:1rpx solid #eee;
-  padding:16rpx 4rpx;
-  box-sizing: border-box;
-}
-.week-cell{
-  flex:1;
-  text-align:center;
-  font-size:26rpx;
-  color:#666;
-  padding:16rpx 0;
-  border-right:1rpx solid #eee;
-  box-sizing: border-box;
-}
-
-.scroll-lesson-area{
-  flex:1;
-  height:0;
-}
-.lesson-table{
-  width:100%;
-}
-.lesson-row{
-  display:flex;
-}
-.time-cell{
-  width:120rpx;
-  flex-shrink:0;
-  text-align:center;
-  font-size:24rpx;
-  color:#666;
-  padding:16rpx 4rpx;
-  border-right:1rpx solid #eee;
-  border-bottom:1rpx solid #eee;
-  box-sizing: border-box;
-}
-.num{
-  font-size:30rpx;
-  margin-bottom:8rpx;
-}
-.time{
-  line-height:1.4;
-}
-.day-cell{
-  flex:1;
-  min-height:140rpx;
-  border-right:1rpx solid #eee;
-  border-bottom:1rpx solid #eee;
-  padding:16rpx 0;
-  box-sizing: border-box;
-}
-
-/*周选择弹窗*/
-.week-mask{
-  position:fixed;
-  top:0;left:0;right:0;bottom:0;
-  background:rgba(0,0,0,0.4);
-  z-index:100;
-}
-.week-wrap{
-  background:#fff;
-  padding:30rpx;
-  margin-top:120rpx;
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap:20rpx;
-}
-.week-item{
-  text-align:center;
-  padding:24rpx 0;
-  border:1rpx solid #eee;
-  border-radius:8rpx;
-}
-.week-item.active{
-  background:#007aff;
-  color:#ffffff;
-}
-/*时间段隔断加深横线：4课结束、8课结束的底边框 */
-.divider-row .time-cell{
-  border-bottom: 3rpx solid #bbbbbb !important;
-}
-.divider-row .day-cell{
-  border-bottom: 3rpx solid #bbbbbb !important;
-}
-/* 课程块样式 */
-.course-block {
-  background: #4c8bf5;
-  color: #fff;
-  border-radius: 8rpx;
-  font-size: 22rpx;
-  padding: 4rpx 6rpx;
-  margin: 2rpx 4rpx;
-  text-align: center;
-  white-space: nowrap;
+/* ===== 全局 ===== */
+page {
+  background-color: #f5f5f5;
+  font-size: 28rpx;
+  height: 100%;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
-.room {
-  font-size: 18rpx;
-  opacity: 0.8;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f5f5f5;
+}
+
+/* ===== 顶部 ===== */
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #e0e0e0;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.week-select {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #333;
+  padding: 10rpx 0;
+}
+
+.share-mode-tip {
+  font-size: 24rpx;
+  color: #4CAF50;
+  background: #e8f5e9;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+  flex: 1;
+  text-align: center;
+  margin: 0 20rpx;
+}
+
+.menu-icon {
+  font-size: 44rpx;
+  color: #555;
+  padding: 10rpx;
+}
+
+.menu-panel {
+  position: absolute;
+  top: 90rpx;
+  right: 20rpx;
+  background: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 8rpx 30rpx rgba(0,0,0,0.15);
+  padding: 10rpx 0;
+  z-index: 20;
+  min-width: 200rpx;
+}
+
+.menu-item {
+  padding: 20rpx 30rpx;
+  font-size: 28rpx;
+  color: #333;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+/* 分享按钮样式（让 button 看起来像普通菜单项） */
+.menu-panel .share-btn {
+  background: none;
+  border: none;
+  padding: 20rpx 30rpx;
+  font-size: 28rpx;
+  color: #333;
+  text-align: left;
+  width: 100%;
+  border-bottom: 1rpx solid #f0f0f0;
+  border-radius: 0;
+  line-height: 1.4;
+}
+.menu-panel .share-btn::after {
+  border: none;
+}
+.menu-panel .share-btn:last-child {
+  border-bottom: none;
+}
+
+/* ===== 周选择弹窗 ===== */
+.week-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.week-wrap {
+  background: #fff;
+  border-radius: 20rpx;
+  width: 80%;
+  max-height: 70%;
+  padding: 30rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.week-item {
+  width: 25%;
+  padding: 20rpx 10rpx;
+  text-align: center;
+  font-size: 30rpx;
+  border-radius: 10rpx;
+  margin: 10rpx;
+  background: #f0f0f0;
+  color: #333;
+}
+
+.week-item.active {
+  background: #4CAF50;
+  color: #fff;
+}
+
+/* ===== 表头 ===== */
+.week-header-row {
+  display: flex;
+  background: #fff;
+  border-bottom: 2rpx solid #e0e0e0;
+  flex-shrink: 0;
+  padding: 10rpx 0;
+}
+
+.time-col-placeholder {
+  width: 100rpx;
+  flex-shrink: 0;
+}
+
+.week-cell {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.6;
+}
+
+.week-day {
+  font-weight: 600;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.week-date {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+/* ===== 滚动区域 ===== */
+.scroll-lesson-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 4rpx 0 4rpx;
+}
+
+/* ===== Grid 容器 ===== */
+.lesson-grid {
+  display: grid;
+  grid-template-columns: 100rpx repeat(7, 1fr);
+  background: #fff;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+  margin: 8rpx 0;
+}
+
+/* ===== 时间列 ===== */
+.time-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  border-right: 1rpx solid #e8e8e8;
+  border-bottom: 1rpx solid #e8e8e8;
+  padding: 6rpx 0;
+  font-size: 22rpx;
+  color: #888;
+}
+
+.time-cell .num {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #333;
+}
+
+.time-cell .time {
+  font-size: 20rpx;
+  line-height: 1.4;
+}
+
+/* ===== 空白格子 ===== */
+.grid-cell {
+  background: #fff;
+  border-bottom: 1rpx solid #e8e8e8;
+  border-right: 1rpx solid #e8e8e8;
+}
+
+/* ===== 课程卡片（跨行） ===== */
+.course-card {
+  border-radius: 10rpx;
+  padding: 10rpx 8rpx;
+  margin: 6rpx;
+  font-size: 26rpx;
+  line-height: 1.5;
+  text-align: center;
+  word-break: break-all;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.08);
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 1rpx solid rgba(255,255,255,0.3);
+  z-index: 5;
+  pointer-events: auto;
+  transition: transform 0.1s ease;
+}
+
+.course-card:active {
+  transform: scale(0.97);
+}
+
+.course-card .course-name {
+  font-weight: 600;
+  font-size: 28rpx;
+  margin-bottom: 4rpx;
+}
+
+.course-card .course-room,
+.course-card .course-teacher {
+  font-size: 22rpx;
+  color: #666;
+  margin-top: 2rpx;
 }

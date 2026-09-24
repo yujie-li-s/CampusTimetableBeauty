@@ -1,11 +1,60 @@
 <view wx:if="{{show}}" class="mask" bindtap="onClose">
   <view class="modal" catchtap="stop">
-    <view class="title">添加课程</view>
-    <input placeholder="课程名称" class="ipt" bindinput="onNameInput" value="{{courseName}}" />
-    <input placeholder="教室" class="ipt" bindinput="onRoomInput" value="{{room}}" />
+    <view class="modal-header">
+      <view class="title">{{isEdit ? '修改课程信息' : '新增课程'}}</view>
+      <view class="subtitle" wx:if="{{!isEdit}}">填写课程信息后保存</view>
+    </view>
+
+    <view class="form-body">
+      <view class="form-group">
+        <view class="group-title">基础信息</view>
+
+        <view class="field">
+          <view class="field-label">课程名称</view>
+          <input class="ipt" placeholder-class="placeholder-style" placeholder="请输入课程名称" value="{{courseName}}" bindinput="onNameInput"/>
+        </view>
+        <view class="field">
+          <view class="field-label">教室</view>
+          <input class="ipt" placeholder-class="placeholder-style" placeholder="请输入教室" value="{{room}}" bindinput="onRoomInput"/>
+        </view>
+        <view class="field">
+          <view class="field-label">教师</view>
+          <input class="ipt" placeholder-class="placeholder-style" placeholder="请输入教师" value="{{teacher}}" bindinput="onTeacherInput"/>
+        </view>
+      </view>
+
+      <view class="form-group">
+        <view class="group-title">时间安排</view>
+
+        <view class="field">
+          <view class="field-label">星期</view>
+          <picker mode="selector" range="{{weekOptions}}" value="{{dayIndex}}" bindchange="onDayChange">
+            <view class="picker-value">{{weekOptions[dayIndex]}}</view>
+          </picker>
+        </view>
+        <view class="field">
+          <view class="field-label">节次</view>
+          <input class="ipt" placeholder-class="placeholder-style" placeholder="支持范围(1‑4节) 或逗号分隔(5,6)" value="{{slotStr}}" bindinput="onSlotInput"/>
+        </view>
+        <view class="field">
+          <view class="field-label">周次</view>
+          <input class="ipt" placeholder-class="placeholder-style" placeholder="支持区间(1‑3周)或组合(1‑3周,6‑7周)" value="{{weekStr}}" bindinput="onWeekInput"/>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部按钮 -->
     <view class="btns">
-      <button bindtap="onClose">取消</button>
-      <button bindtap="onConfirm">确认</button>
+      <!--编辑模式：删除（居左auto）+保存-->
+      <block wx:if="{{isEdit}}">
+        <button class="btn-delete" bindtap="onDelete">删除</button>
+        <button class="btn-confirm" bindtap="onConfirm">保存</button>
+      </block>
+      <!--新增模式：取消 +保存-->
+      <block wx:else>
+        <button class="btn-cancel" bindtap="onClose">取消</button>
+        <button class="btn-confirm" bindtap="onConfirm">保存</button>
+      </block>
     </view>
   </view>
 </view>

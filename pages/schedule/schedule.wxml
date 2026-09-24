@@ -1,25 +1,17 @@
 <view class="container">
-  <!-- 顶部标题+周选择 -->
+  <!-- 顶部 -->
   <view class="header-top">
     <view class="week-select" bindtap="toggleWeekPopup">{{weekTitle}} ∨</view>
+    <view class="share-mode-tip" wx:if="{{isSharedMode}}">📤 查看好友课表</view>
     <view class="menu-icon" bindtap="showMenu">☰</view>
   </view>
 
-  <!-- 右上角下拉菜单（所有菜单项绑定事件） -->
+  <!-- 菜单 -->
   <view wx:if="{{showMenuPanel}}" class="menu-panel">
     <view class="menu-item" bindtap="goSetting">设置</view>
-    <view class="menu-item" bindtap="importData">导入</view>
-    <view class="menu-item" bindtap="scanCode">扫一扫</view>
-    <view class="menu-item" bindtap="showQRCode">二维码</view>
-    <view class="menu-item" bindtap="shareTimetable">转发</view>
-  </view>
-
-  <!-- 固定不动的星期表头 -->
-  <view class="week-header-row">
-    <view class="time-col-placeholder"></view>
-    <block wx:for="{{weekDays}}" wx:key="index">
-      <view class="week-cell">{{item.week}}<br/>{{item.date}}</view>
-    </block>
+    <view class="menu-item" bindtap="importData">导入Excel</view>
+    <button class="menu-item share-btn" open-type="share">分享本周课表</button>
+    <view class="menu-item" wx:if="{{isSharedMode}}" bindtap="exitShareMode">返回我的课表</view>
   </view>
 
   <!-- 周选择弹窗 -->
@@ -33,38 +25,52 @@
     </view>
   </view>
 
-  <!-- 垂直滚动区域（课表主体） -->
+  <!-- 星期表头 -->
+  <view class="week-header-row">
+    <view class="time-col-placeholder"></view>
+    <block wx:for="{{weekDays}}" wx:key="index">
+      <view class="week-cell">
+        <text class="week-day">{{item.week}}</text>
+        <text class="week-date">{{item.dateShort}}</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 课表主体 -->
   <scroll-view scroll-y class="scroll-lesson-area">
-    <view class="lesson-table">
-      <block wx:for="{{timeSlots}}" wx:for-item="slot" wx:for-index="idx" wx:key="no">
-        <view class="lesson-row {{slot.divider ? 'divider-row' : ''}}">
-          <view class="time-cell">
-            <view class="num">{{slot.no}}</view>
-            <view class="time">{{slot.start}}</view>
-            <view class="time">{{slot.end}}</view>
+    <view class="lesson-grid" style="grid-template-rows: repeat({{timeSlots.length}}, 100rpx);">
+      <block wx:for="{{timeSlots}}" wx:for-item="slot" wx:key="no">
+        <view class="time-cell" style="grid-row: {{slot.no}};">
+          <view class="num">{{slot.no}}</view>
+          <view class="time">{{slot.start}}</view>
+          <view class="time">{{slot.end}}</view>
+        </view>
+      </block>
+
+      <block wx:for="{{timeSlots}}" wx:for-item="slot" wx:key="no">
+        <block wx:for="{{weekDays}}" wx:for-item="day" wx:for-index="dayIdx" wx:key="dayIdx">
+          <view class="grid-cell" style="grid-row: {{slot.no}}; grid-column: {{dayIdx + 2}};" bindtap="tapCell" data-day="{{dayIdx}}" data-slot="{{slot.no}}">
           </view>
-          <!-- 7个格子，分别对应周一到周日 -->
-          <view class="day-cell" 
-                wx:for="{{weekDays}}" 
-                wx:for-item="day" 
-                wx:for-index="dayIdx" 
-                bindtap="tapCell" 
-                data-day="{{dayIdx}}" 
-                data-slot="{{slot.no}}">
-            <!-- 显示该格子内的课程 -->
-            <view wx:for="{{courseList}}" wx:for-item="course" wx:key="id">
-              <view wx:if="{{course.slot === slot.no && course.day === dayIdx}}" 
-                    class="course-block">
-                {{course.name}}
-                <view wx:if="{{course.room}}" class="room">{{course.room}}</view>
-              </view>
-            </view>
-          </view>
+        </block>
+      </block>
+
+      <block wx:for="{{mergedCourses}}" wx:for-item="course" wx:key="id">
+        <view class="course-card" style="grid-row: {{course.slotStart}} / {{course.slotEnd + 1}}; grid-column: {{course.day + 2}}; background-color: {{course.color || '#e8f5e9'}};" bindtap="tapCourse" data-course="{{course}}">
+          <view class="course-name">{{course.name}}</view>
+          <view class="course-room" wx:if="{{course.room}}">{{course.room}}</view>
+          <view class="course-teacher" wx:if="{{course.teacher}}">{{course.teacher}}</view>
         </view>
       </block>
     </view>
   </scroll-view>
 
-  <!-- 课程添加弹窗（组件） -->
-  <course-modal show="{{modalShow}}" bind:closeModal="closeModal" bind:confirm="confirmCourse"></course-modal>
+  <!-- 课程弹窗【正确】 -->
+  <course-modal
+    show="{{modalShow}}"
+    edit-data="{{editCourseData}}"
+    bind:closeModal="closeModal"
+    bind:confirm="confirmCourse"
+    bind:delete="deleteCourseById"
+  />
+
 </view>

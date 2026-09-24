@@ -1,0 +1,17 @@
+# 微信小程序私有配置
+project.private.config.json
+
+# npm依赖（体积巨大，不要上传github）
+node_modules/
+miniprogram_npm/
+
+# 编辑器、系统垃圾文件
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+
+# git目录不用管，git自己管理
+miniprogram_npm/
+node_modules/
